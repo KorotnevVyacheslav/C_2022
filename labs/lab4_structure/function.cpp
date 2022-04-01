@@ -1,7 +1,13 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
+
+void cout_RGB(int R, int G, int B)
+{
+  cout << "\x1B[38;2;" << R << ";" << G << ";" << B << "m" << " ";
+}
 
 union Colour
 {
@@ -54,10 +60,15 @@ public:
 
   void get_info(){
     col = calc_colour();
-    cout << "Your cat's colour now is: (" << col.r << "," << col.g << "," << col.b << ")" << endl;
+    cout << "Your cat's colour now is: (";
+    cout_RGB(col.r , col.g ,col.b);
+    cout << col.r << "," << col.g << "," << col.b << ")";
+    cout_RGB(0, 0, 0);
+    cout << endl;
     cout << "Health is: " << health << endl;
   }
 };
+
 
 bool finding_string(string text, string command){
     size_t pos = text.find(command);
@@ -66,6 +77,8 @@ bool finding_string(string text, string command){
     else
         return false;
 }
+
+
 
 int main(){
   srand(82392874);
@@ -77,6 +90,13 @@ int main(){
   while (object.flag) {
     cin >> deal;
     if(finding_string(deal, "quit")) return 0;
+    if(finding_string(deal, "help")) {
+      cout << "Print quit to quit." << endl;
+      cout << "Print feed to feed, then print number." << endl;
+      cout << "Print punish to punish, then print number." << endl;
+      cout << "Print info for info." << endl;
+      cout << "Print age to know the age." << endl;
+    }
     if(finding_string(deal, "feed")) {
       int health;
       cin >> health;
