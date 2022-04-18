@@ -79,7 +79,6 @@ bool finding_string(string text, string command){
 }
 
 
-
 int main(){
   srand(82392874);
   cout << "Algorithm started." << endl << "Write name: ";
@@ -87,6 +86,7 @@ int main(){
   cin >> temp;
   Cat object(temp);
   string deal;
+  
   while (object.flag) {
     cin >> deal;
     if(finding_string(deal, "quit")) return 0;
