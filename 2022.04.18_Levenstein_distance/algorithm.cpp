@@ -10,7 +10,7 @@ using namespace std;
 void mass_print(vector<vector<int>> a, int wid, int heig){
     for(int i = 0; i < wid; i++){
       for(int j = 0; j < heig; j++){
-        if (a[i][j] == -1) cout<< a[i][j] << "   ";
+        if (a[i][j] / 10 == 0) cout<< a[i][j] << "   ";
         else cout<< a[i][j] << "    ";
       }
     cout<<endl;
