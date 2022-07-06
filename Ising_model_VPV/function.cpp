@@ -9,24 +9,26 @@
 
 using namespace std;
 
-#define SIZE 1024
+#define SIZE 256
 #define SIZE_PX 800
 #define T_MAX 4
 #define H_MAX 1
 
-ofstream file("magnet.txt");
+ofstream file1("magnet.txt");
+ofstream file2("energy.txt");
 
 double quadSize = SIZE_PX / (double)SIZE;
 
 short lattice[SIZE][SIZE];
 double w[5];
-double T = T_MAX/4, M, E, H = 0;
+double T = 2, M, E, H = -0.5;
 
 int ratio = 0;
 size_t nmcs = 0;
 double ecum = 0, e2cum = 0, mcum = 0, m2cum = 0;
 
-void renderBitmapString(float x, float y, char *string){
+void renderBitmapString(float x, float y, char *string)
+{
 
 	glColor3f(1, 1, 0);
 	glRasterPos2f(x, y);
@@ -167,7 +169,6 @@ void outputData(int)
 {
 	double norm = 1 / (double)(nmcs * SIZE * SIZE);
 
-	cout << "Коэффициент принятия = " << ::ratio * norm << endl;
 	cout << "Средняя энергия на спин = " << ecum * norm << endl;
 	cout << "Средний квадрат энергии на спин = " << e2cum * norm / SIZE / SIZE << endl;
 	cout << "Средняя намагниченность = " << mcum * norm << endl;
@@ -182,7 +183,11 @@ void outputFile(int)
 {
 	double norm = 1 / (double)(nmcs * SIZE * SIZE);
 
-	file << mcum * norm  << endl;
+	//file1 << mcum * norm  << endl;
+	//file2 << ecum * norm  << endl;
+
+	file1 << M / SIZE / SIZE << endl;
+	file2 << E / SIZE / SIZE << endl;
 
 	glutTimerFunc(100, outputFile, 0);
 }
@@ -250,5 +255,6 @@ int main(int argc, char *argv[])
 	glutTimerFunc(100, outputFile, 0);
 
 	glutMainLoop();
-	file.close();
+	file1.close();
+	file2.close();
 }
