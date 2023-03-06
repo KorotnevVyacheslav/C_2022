@@ -1,15 +1,15 @@
-//g++ function.cpp -o output -l/usr/include/GL/-Iglut -IGL -IGLU
+//g++ function.cpp -o output -lglut -lGL -lGLU
 
 #include <iostream>
 #include <random>
-#include <locale>
-#include <cstring>
+//#include <locale>
+//#include <cstring>
 #include <fstream>
 #include "GL/glut.h"
 
 using namespace std;
 
-#define SIZE 256
+#define SIZE 512
 #define SIZE_PX 800
 #define T_MAX 4
 #define H_MAX 1
@@ -24,20 +24,7 @@ double w[5];
 double T = 2, M, E, H = -0.5;
 
 int ratio = 0;
-size_t nmcs = 0;
-double ecum = 0, e2cum = 0, mcum = 0, m2cum = 0;
 
-void renderBitmapString(float x, float y, char *string)
-{
-
-	glColor3f(1, 1, 0);
-	glRasterPos2f(x, y);
-	int len, i;
-	len = (int)strlen(string);
-	for(i = 0; i < len; i++){
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
-	}
-}
 
 void display()
 {
@@ -65,11 +52,6 @@ void display()
 		glVertex2d(SIZE + SIZE / 8, 0);
 
 		glColor3f(1, 1, 1);
-
-		//glVertex2d(SIZE, SIZE * 2.27 / T_MAX - SIZE / CURIE_SCALE);
-		//glVertex2d(SIZE, SIZE * 2.27 / T_MAX + SIZE / CURIE_SCALE);
-		//glVertex2d(SIZE + SIZE / 8, SIZE * 2.27 / T_MAX + SIZE / CURIE_SCALE);
-		//glVertex2d(SIZE + SIZE / 8, SIZE * 2.27 / T_MAX - SIZE / CURIE_SCALE);
 	}
 
 	glEnd();
@@ -141,7 +123,7 @@ void metropolis()
 		if (sum * lattice[x][y] + lattice[x][y] * H <= 0 || (rand() / (double)RAND_MAX) < w[(sum) / 2 + 2])
 		{
 			lattice[x][y] = -lattice[x][y];
-			::ratio++;
+			ratio++;
 			M += 2 * lattice[x][y];
 			E -= 2 * lattice[x][y] * sum + 2 * lattice[x][y] * H;
 		}
@@ -153,14 +135,6 @@ void timer1(int)
 	display();
 
 	metropolis();
-
-	nmcs++;
-
-	ecum += E;
-	e2cum += E * E;
-	mcum += M;
-	m2cum += M * M;
-
 
 	glutTimerFunc(10, timer1, 0);
 }
@@ -240,6 +214,7 @@ int main(int argc, char *argv[])
 {
   glutInit(& argc, argv);
 	setlocale(LC_ALL, "ru");
+
 	init();
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	glutInitWindowSize(SIZE_PX + 100, SIZE_PX);
@@ -250,6 +225,7 @@ int main(int argc, char *argv[])
 	glutDisplayFunc(display);
 	glutKeyboardFunc(keyboard);
 	glutMotionFunc(motion);
+
 	glutTimerFunc(1, timer1, 0);
 	glutTimerFunc(10000, outputData, 0);
 	glutTimerFunc(100, outputFile, 0);
