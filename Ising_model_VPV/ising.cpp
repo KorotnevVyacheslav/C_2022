@@ -424,7 +424,7 @@ public:
   }
 };
 
-Table table_first(256*4, 800);
+Table table_first(256*2, 800);
 
 Saver saver(5);
 
@@ -472,7 +472,7 @@ int main(int argc, char *argv[]) {
       }
       case 2:
       {
-        std::cerr << "Failed to connect keyboard\n";
+        std::cerr << "Failed to connect mouse\n";
         return 0;
       }
     }
